@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyLens AI | Advanced Multi-Agent Deliberation</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "lucide": "https://esm.sh/lucide",
+        "browserpod": "https://esm.sh/browserpod"
+      }
+    }
+    </script>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        const portalUrl = document.getElementById('portal-url');
+        if (portalUrl) {
+          portalUrl.innerHTML = `<span style="color:var(--danger)">Error: ${msg} at ${line}:${col}</span>`;
+        }
+        return false;
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        const portalUrl = document.getElementById('portal-url');
+        if (portalUrl) {
+          portalUrl.innerHTML = `<span style="color:var(--danger)">Promise Error: ${event.reason}</span>`;
+        }
+      });
+    </script>
+</head>
+<body>
+    <!-- Premium Blobs -->
+    <div class="blob" style="top: -100px; left: -100px; background: var(--primary);"></div>
+    <div class="blob" style="bottom: -100px; right: -100px; background: var(--accent-purple);"></div>
+
+    <div class="container">
+        <header class="animate-in">
+            <h1>PolicyLens <span style="color: var(--primary);">AI</span></h1>
+            <p class="subtitle">Experience the future of policy analysis. Our high-fidelity multi-agent system simulates complex societal impacts through professional, stakeholder-driven deliberation.</p>
+            <div style="display: flex; gap: 1rem; align-items: center; justify-content: center; margin-top: 1.5rem;">
+                <div id="pod-status" class="pod-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Booting BrowserPod...</span>
+                </div>
+            </div>
+        </header>
+
+        <main id="app">
+            <!-- 1. Input Section -->
+            <section id="input-section" class="animate-in">
+                <div class="input-panel">
+                    <div class="input-group">
+                        <label><i data-lucide="highlighter" style="width: 14px; margin-right: 8px;"></i>Proposed Policy or Project</label>
+                        <textarea id="policy-input" rows="4" placeholder="Describe the policy, bill, or corporate project you'd like to analyze..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label><i data-lucide="box" style="width: 14px; margin-right: 8px;"></i>Category Context</label>
+                        <select id="policy-category">
+                            <option value="economy">Economic Reform & Labor</option>
+                            <option value="education">Education & Youth</option>
+                            <option value="government">Government & Public Sector</option>
+                            <option value="business">Enterprise & Small Business</option>
+                            <option value="social">Social Welfare & Communities</option>
+                        </select>
+                    </div>
+                    <button id="analyze-btn" class="primary-btn">
+                        <i data-lucide="zap"></i> Initialize Deliberation
+                    </button>
+                </div>
+            </section>
+
+            <!-- 2. Initial Analysis Section (Group Intelligence) -->
+            <section id="initial-analysis" class="hidden">
+                <div style="text-align: center; margin-bottom: 4rem;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit';">Group Intelligence</h2>
+                    <p style="color: var(--text-muted); font-size: 1.1rem;">Initial impact assessments from our 7 autonomous agents. Click any card to consult.</p>
+                </div>
+                <div id="agent-grid" class="agent-grid"></div>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 4rem;">
+                    <button class="secondary-btn back-to-input">
+                        <i data-lucide="chevron-left"></i> Refine Policy
+                    </button>
+                    <button id="start-debate-btn" class="primary-btn" style="width: auto; padding: 1.5rem 4rem;">
+                        <i data-lucide="message-square"></i> Open Debate Arena
+                    </button>
+                </div>
+            </section>
+
+            <!-- 3. Debate Arena Section -->
+            <section id="debate-section" class="hidden">
+                <div style="text-align: center; margin-bottom: 4rem;">
+                    <h2 id="debate-status" style="font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit';">Debate Arena</h2>
+                    <div id="debate-loader" class="hidden">
+                        <div class="loader-glow"></div>
+                        <p style="color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Synthesizing Exchanges...</p>
+                    </div>
+                </div>
+                
+                <div id="debate-timeline" class="debate-section" style="position: relative;">
+                    <div id="new-messages-indicator" class="new-messages-indicator hidden">
+                        <i data-lucide="chevron-down"></i> New messages below
+                    </div>
+                    <button id="jump-to-latest-btn" class="jump-to-latest-btn hidden">
+                        <i data-lucide="arrow-down"></i> Jump to Latest
+                    </button>
+                    <div class="exchange-list" id="exchange-list"></div>
+                </div>
+
+                <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 4rem;">
+                    <button class="secondary-btn back-to-initial">
+                        <i data-lucide="chevron-left"></i> View Analysis
+                    </button>
+                    <button id="view-results-btn" class="primary-btn hidden" style="width: auto; padding: 1.5rem 4rem;">
+                        <i data-lucide="shield"></i> Proceed to Technical Review
+                    </button>
+                </div>
+
+                <!-- BrowserPod Terminal Overlay -->
+                <div id="terminal-container" class="terminal-container hidden">
+                    <div class="terminal-header">
+                        <span><i data-lucide="terminal" style="width: 14px;"></i> BrowserPod Compute Logs</span>
+                        <button id="close-terminal" class="close-btn"><i data-lucide="x"></i></button>
+                    </div>
+                    <div id="bp-terminal"></div>
+                </div>
+                <button id="toggle-terminal" class="terminal-toggle-btn">
+                    <i data-lucide="terminal"></i>
+                </button>
+            </section>
+
+            <!-- 4. Security Category Section (NEW) -->
+            <section id="security-section" class="hidden">
+                <div class="security-panel animate-in">
+                    <div style="text-align: center; margin-bottom: 4rem;">
+                        <div class="security-badge"><i data-lucide="shield" style="width: 14px;"></i> Security Category</div>
+                        <h2 style="font-size: 3rem; font-family: 'Outfit';">Security Feasibility</h2>
+                        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 1rem auto;">Evaluating technical risks, browser sandboxing, and safe software execution for this policy.</p>
+                    </div>
+
+                    <div class="security-grid">
+                        <div class="security-card risk-score-card">
+                            <label><i data-lucide="alert-triangle" style="width: 14px;"></i> Risk Assessment</label>
+                            <div id="security-risk-level" class="risk-level-value">Low</div>
+                            <div class="risk-meter"><div id="security-risk-fill" class="risk-meter-fill"></div></div>
+                            <p id="security-summary" class="security-summary"></p>
+                        </div>
+                        
+                        <div class="security-card threats-card">
+                            <label><i data-lucide="shield-off" style="width: 14px;"></i> Top Implementation Threats</label>
+                            <ul id="security-threats" class="security-list"></ul>
+                        </div>
+                    </div>
+
+                    <div style="margin: 3rem 0; padding: 2.5rem; background: rgba(0,0,0,0.2); border-radius: 2rem; border: 1px solid var(--glass-border);">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                            <i data-lucide="clock" style="width: 16px; color: var(--accent-orange);"></i> Long-Term Security Consequences
+                        </label>
+                        <div id="security-consequences" class="consequences-grid"></div>
+                    </div>
+
+                    <div style="margin: 3rem 0; padding: 2.5rem; background: rgba(0,0,0,0.2); border-radius: 2rem; border: 1px solid var(--glass-border);">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem;">
+                            <i data-lucide="shield-alert" style="width: 16px; color: var(--danger);"></i> Systemic Vulnerabilities & Mitigation
+                        </label>
+                        
+                        <div class="analysis-grid">
+                            <!-- Vulnerabilities -->
+                            <div class="analysis-card">
+                                <div class="card-label">Vulnerability Map</div>
+                                <div id="vulnerability-list" class="vulnerability-list"></div>
+                            </div>
+
+                            <!-- Mitigations -->
+                            <div class="analysis-card">
+                                <div class="card-label">Strategic Mitigations</div>
+                                <div class="mitigation-table-wrapper">
+                                    <table class="mitigation-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Control Step</th>
+                                                <th>Effort</th>
+                                                <th>Priority</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="mitigation-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance Scorecard -->
+                    <div class="compliance-row">
+                        <div class="compliance-item">
+                            <div class="comp-label">GDPR Compliance</div>
+                            <div id="comp-gdpr" class="comp-status">Pending</div>
+                        </div>
+                        <div class="compliance-item">
+                            <div class="comp-label">NIST Framework</div>
+                            <div id="comp-nist" class="comp-status">Pending</div>
+                        </div>
+                        <div class="compliance-item">
+                            <div class="comp-label">ISO 27001</div>
+                            <div id="comp-iso" class="comp-status">Pending</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; margin-top: 4rem;">
+                        <button id="proceed-to-verdict-btn" class="primary-btn" style="width: auto; padding: 1.5rem 4rem;">
+                            <i data-lucide="trending-up"></i> Final Verdict & Consensus
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Results Section -->
+            <section id="results-section" class="hidden">
+                <div class="synthesis-panel animate-in">
+                    <div style="text-align: center; margin-bottom: 5rem;">
+                        <div style="font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1rem;">Consensus Engine Output</div>
+                        <h2 style="font-size: 3.5rem; font-family: 'Outfit';">Final Policy Verdict</h2>
+                        <p id="core-pivot" style="color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin: 1.5rem auto 0; font-style: italic;"></p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 5rem;">
+                        <div class="stat-card">
+                            <label><i data-lucide="check-circle" style="width: 12px; margin-right: 6px;"></i>Overall Rating</label>
+                            <div id="overall-rating" class="stat-value">Neutral</div>
+                        </div>
+                        <div class="stat-card">
+                            <label><i data-lucide="trending-up" style="width: 12px; margin-right: 6px;"></i>Impact Score</label>
+                            <div id="avg-score" class="stat-value">0.0</div>
+                        </div>
+                        <div class="stat-card">
+                            <label><i data-lucide="users" style="width: 12px; margin-right: 6px;"></i>Primary Beneficiary</label>
+                            <div id="who-benefits" class="stat-value" style="font-size: 1.5rem; padding-top: 1rem;">-</div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); border-radius: 2rem; padding: 3rem; border: 1px solid var(--glass-border); margin-bottom: 4rem;">
+                        <label style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 2rem; text-align: center;">
+                            <i data-lucide="highlighter" style="width: 16px; color: var(--primary);"></i> Strategic Highlights & Risks
+                        </label>
+                        <div id="highlights-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;"></div>
+                    </div>
+
+                    <!-- Long-Term Consequences Panel (NEW) -->
+                    <div class="long-term-section" id="long-term-section">
+                        <div class="lt-section-header">
+                            <div class="lt-header-left">
+                                <div class="lt-icon-badge">
+                                    <i data-lucide="calendar-clock" style="width: 20px; height: 20px;"></i>
+                                </div>
+                                <div>
+                                    <div class="lt-label">Future Impact</div>
+                                    <h3 class="lt-title">Long-Term Consequences</h3>
+                                </div>
+                            </div>
+                            <button id="lt-toggle-btn" class="lt-toggle-btn" aria-expanded="false" aria-controls="long-term-panel">
+                                <i data-lucide="chevron-right" style="width: 16px; height: 16px;" id="lt-toggle-icon"></i>
+                                <span id="lt-toggle-label">Explore Timeline</span>
+                            </button>
+                        </div>
+
+                        <!-- Phase header (always visible) -->
+                        <div class="lt-phase-bar">
+                            <div class="lt-phase-pill immediate-pill">
+                                <i data-lucide="clock" style="width: 12px;"></i> Immediate · 0–12 mo
+                            </div>
+                            <div class="lt-phase-connector"></div>
+                            <div class="lt-phase-pill midterm-pill">
+                                <i data-lucide="calendar-clock" style="width: 12px;"></i> Mid-Term · 1–5 yr
+                            </div>
+                            <div class="lt-phase-connector"></div>
+                            <div class="lt-phase-pill longterm-pill">
+                                <i data-lucide="trending-up" style="width: 12px;"></i> Long-Term · 5+ yr
+                            </div>
+                        </div>
+
+                        <!-- Expandable content -->
+                        <div id="long-term-panel" class="lt-panel hidden">
+                            <!-- Populated by main.js renderLongTermPanel() -->
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <label style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                            <i data-lucide="zap" style="width: 16px; color: var(--primary);"></i> Consensus Recommendation
+                        </label>
+                        <p id="final-recommendation" style="font-size: 1.4rem; color: #fff; margin-top: 1rem; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.6;"></p>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; margin-top: 5rem;">
+                        <button class="secondary-btn back-to-input" style="padding: 1.5rem 4rem; border-radius: 2rem;">
+                            <i data-lucide="refresh-cw"></i> Start New Simulation
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 5. Consultation Modal -->
+    <div id="chat-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-chat-modal" class="close-modal-btn">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="selected-agent-header" style="padding: 2.5rem 3rem; display: flex; align-items: center; gap: 2rem; border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                <div class="agent-avatar" id="active-chat-avatar" style="width: 70px; height: 70px; background: var(--primary-deep); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 0 30px var(--primary-glow);">
+                    <i data-lucide="users" style="width: 32px; height: 32px;"></i>
+                </div>
+                <div class="agent-meta">
+                    <h3 id="active-chat-name" style="font-family: 'Outfit'; font-size: 1.5rem; font-weight: 700; color: #fff;">Representative</h3>
+                    <div id="active-chat-status" style="margin-top: 0.5rem;"></div>
+                </div>
+                <div id="active-chat-stats" style="margin-left: auto; display: flex; gap: 3rem;"></div>
+            </div>
+
+            <div id="chat-messages" class="chat-messages">
+                <!-- Messages populate here -->
+            </div>
+
+            <div class="chat-input-area">
+                <textarea id="chat-input" placeholder="Ask about specific impacts, trade-offs, or their reasoning..." rows="1" style="flex:1; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 1.25rem; padding: 1.25rem 1.5rem; color: #fff; resize: none; font-family: inherit;"></textarea>
+                <button id="send-chat-btn" class="send-btn">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Portal Modal -->
+    <div id="portal-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 900px; height: 80vh; display: flex; flex-direction: column;">
+            <button id="close-portal-modal" class="close-modal-btn">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div style="padding: 2rem; border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                <h3 style="font-family: 'Outfit'; font-size: 1.5rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.75rem;">
+                    <i data-lucide="monitor"></i> BrowserPod Web Portal
+                </h3>
+                <div id="portal-url" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Server stopped. Click "Launch Server" to start.
+                </div>
+                <button id="launch-portal-btn" class="primary-btn" style="margin-top: 1rem; padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.8rem;">
+                    Launch Server
+                </button>
+            </div>
+
+            <div style="flex: 1; background: #fff; border-radius: 0 0 2rem 2rem; overflow: hidden; position: relative;">
+                <iframe id="portal-iframe" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

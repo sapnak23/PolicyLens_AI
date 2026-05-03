@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyLens AI | Professional Policy Deliberation</title>
+  <script type="module" crossorigin src="/assets/index-BSJ4NTAw.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Crby6uH-.css">
+</head>
+<body>
+    <div class="blob" style="top: -100px; left: -100px; background: var(--primary);"></div>
+    <div class="blob" style="bottom: -100px; right: -100px; background: var(--accent-purple);"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i data-lucide="zap" style="color: white; width: 28px; height: 28px;"></i>
+                </div>
+            </div>
+            <h1>PolicyLens <span style="color: var(--primary);">AI</span></h1>
+            <p class="subtitle">Experience high-fidelity deliberation. Our multi-agent system simulates complex societal impacts through professional stakeholder dialogue.</p>
+        </header>
+
+        <main id="app">
+            <section id="input-section" class="input-panel animate-in">
+                <div class="input-group">
+                    <label>Proposed Policy Proposal</label>
+                    <textarea id="policy-input" rows="4" placeholder="e.g. Implement a universal basic income of £1,200/month for all citizens..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label>Policy Category</label>
+                    <select id="policy-category">
+                        <option value="economics">Economic & Labor Market</option>
+                        <option value="housing">Housing & Urban Development</option>
+                        <option value="environment">Environmental & Climate Action</option>
+                        <option value="social">Social Welfare & Healthcare</option>
+                    </select>
+                </div>
+
+                <button id="analyze-btn" class="primary-btn">
+                    <i data-lucide="zap"></i>
+                    Initialize Deliberation
+                </button>
+            </section>
+
+            <section id="initial-analysis" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Stakeholder Intelligence</h2>
+                    <p style="color: var(--text-muted);">Initial impact assessments from 7 professional agent perspectives.</p>
+                </div>
+                <div id="agent-grid" class="agent-grid"></div>
+                
+                <div class="nav-container">
+                    <button class="secondary-btn back-to-input">
+                        <i data-lucide="chevron-left"></i> Edit Proposal
+                    </button>
+                    <button id="start-debate-btn" class="primary-btn" style="width: auto;">
+                        Enter Deliberation Chamber <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="debate-section" class="debate-section hidden">
+                <div class="debate-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1.5rem;">
+                    <div>
+                        <h2 style="font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                            Deliberation Chamber
+                            <span style="font-size: 0.6rem; background: rgba(34, 197, 94, 0.1); color: var(--success); padding: 0.2rem 0.5rem; border-radius: 1rem; border: 1px solid rgba(34, 197, 94, 0.2); vertical-align: middle;">
+                                <i data-lucide="zap" style="width: 10px; height: 10px; display: inline-block;"></i> Live Web & Memory Active
+                            </span>
+                        </h2>
+                        <p id="debate-status" style="color: var(--text-muted); font-size: 0.9rem;">Round 1 of 4</p>
+                    </div>
+                    <div id="debate-loader" class="hidden">
+                        <div class="loader-glow" style="width: 30px; height: 30px; margin: 0;"></div>
+                    </div>
+                </div>
+
+                <div id="debate-timeline" class="debate-timeline"></div>
+
+                <div class="nav-container">
+                    <button class="secondary-btn back-to-initial">
+                        <i data-lucide="chevron-left"></i> Stakeholder Data
+                    </button>
+                    <button id="view-results-btn" class="primary-btn hidden" style="width: auto;">
+                        Analyze Synthesis Verdict <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="results-section" class="synthesis-panel hidden">
+                <div style="text-align: center; margin-bottom: 4rem;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary); letter-spacing: 3px; font-weight: 800;">Core Deliberation Pivot</span>
+                    <h2 id="core-pivot" style="font-size: 4.5rem; font-weight: 800; font-family: 'Outfit'; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px var(--primary-glow)); margin-top: 0.5rem;"></h2>
+                </div>
+
+                <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+                    <div class="stat-card">
+                        <label>Consensus Rating</label>
+                        <div id="overall-rating" class="stat-value">Favorable</div>
+                    </div>
+                    <div class="stat-card">
+                        <label>Avg. Impact Score</label>
+                        <div id="avg-score" class="stat-value">3.2</div>
+                    </div>
+                    <div class="stat-card">
+                        <label>Primary Beneficiary</label>
+                        <div id="who-benefits" class="stat-value" style="font-size: 1.8rem;">Student</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem;">
+                    <div>
+                        <h3 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <i data-lucide="highlighter" style="color: var(--primary);"></i>
+                            Debate Highlights
+                        </h3>
+                        <div id="highlights-container" style="display: flex; flex-direction: column; gap: 1.25rem;"></div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <i data-lucide="check" style="color: var(--success);"></i>
+                            Final Recommendation
+                        </h3>
+                        <div id="final-recommendation" style="background: rgba(255, 255, 255, 0.03); padding: 2rem; border-radius: 1.5rem; border: 1px dashed var(--glass-border); line-height: 1.8; color: var(--text-muted);"></div>
+                    </div>
+                </div>
+
+                <div class="nav-container">
+                    <button class="secondary-btn back-to-debate">
+                        <i data-lucide="chevron-left"></i> Review Debate
+                    </button>
+                    <button onclick="window.location.reload()" class="primary-btn" style="width: auto;">
+                        New Simulation <i data-lucide="refresh-cw"></i>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

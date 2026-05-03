@@ -14,7 +14,7 @@ Public policies often sound good in theory but affect different groups in very d
 - Includes individual stakeholder consultation for one-to-one follow-up questions.
 - Highlights long-term consequences so users can see effects beyond the immediate outcome.
 - Adds a **Security Category** to evaluate privacy risk, misuse potential, software-handling risk, and safe implementation concerns.
-- Uses a browser-sandbox-inspired approach for a controlled security demo based on iframe isolation and message-based communication patterns.[1][2]
+- Uses a browser-sandbox-inspired approach for a controlled security demo based on iframe isolation and message-based communication patterns.
 
 ## Core features
 

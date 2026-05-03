@@ -36,11 +36,11 @@ The platform highlights future effects, not just immediate outcomes, so users ca
 
 ### Security category
 
-The Security Category extends the platform beyond social and economic analysis by asking whether a policy or software-handling scenario can be implemented safely. It focuses on areas such as browser sandboxing, risky execution behavior, privacy exposure, misuse potential, and recommended safeguards.[1]
+The Security Category extends the platform beyond social and economic analysis by asking whether a policy or software-handling scenario can be implemented safely. It focuses on areas such as browser sandboxing, risky execution behavior, privacy exposure, misuse potential, and recommended safeguards.
 
 ## Security layer
 
-The project includes a security-focused extension that evaluates implementation risk alongside stakeholder impact. A controlled browser sandbox demo can be built using sandboxed iframes and `postMessage`, which are common browser patterns for isolating risky content while keeping communication structured and explicit.[1][2]
+The project includes a security-focused extension that evaluates implementation risk alongside stakeholder impact. A controlled browser sandbox demo can be built using sandboxed iframes and `postMessage`, which are common browser patterns for isolating risky content while keeping communication structured and explicit.
 
 Possible security outputs include:
 
@@ -48,13 +48,13 @@ Possible security outputs include:
 - Top threats and misuse scenarios.
 - Long-term security consequences.
 - Recommended safeguards before implementation.
-- Activity monitoring from isolated sandbox behavior.[1][2]
+- Activity monitoring from isolated sandbox behavior.
 
 ## Example use cases
 
 - Evaluating whether a wage, education, tax, or public service policy is beneficial across stakeholders.
 - Testing whether a software-related policy creates privacy or misuse risks during implementation.
-- Demonstrating safe handling of suspicious behavior in a browser-sandbox-style environment.[1]
+- Demonstrating safe handling of suspicious behavior in a browser-sandbox-style environment.
 - Showing judges, teachers, or users how policy decisions create conflicting outcomes across society.
 
 ## How it works
@@ -68,14 +68,14 @@ Possible security outputs include:
 
 ## Suggested stack
 
-This project is well suited to a modern web app stack with a frontend, LLM-powered orchestration, and modular agent outputs. A browser-based sandbox demo fits naturally into the frontend through sandboxed iframes and structured messaging instead of unsafe direct execution in the parent window.[1][2]
+This project is well suited to a modern web app stack with a frontend, LLM-powered orchestration, and modular agent outputs. A browser-based sandbox demo fits naturally into the frontend through sandboxed iframes and structured messaging instead of unsafe direct execution in the parent window.
 
 Typical stack options:
 
 - Frontend: React, Next.js, or plain HTML/CSS/JavaScript.
 - AI orchestration: multi-agent prompt flows with structured JSON outputs.
 - UI patterns: cards, debate panels, consultation chat, verdict summaries, and a security dashboard.
-- Security demo: sandboxed iframe with controlled `postMessage` communication.[1][2]
+- Security demo: sandboxed iframe with controlled `postMessage` communication.
 
 ## What makes it interesting
 
@@ -86,7 +86,7 @@ PolicyLens AI is not just a chatbot. It behaves more like a policy simulation an
 - Add voting by agents before the final verdict.
 - Add charts or impact matrices by stakeholder.
 - Add scenario comparison mode for two competing policies.
-- Add a richer sandbox monitor with predefined suspicious execution cases.[1]
+- Add a richer sandbox monitor with predefined suspicious execution cases.
 - Add exportable policy reports for decision-makers.
 
 ## Elevator pitch
